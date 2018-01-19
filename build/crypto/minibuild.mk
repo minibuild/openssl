@@ -12,3 +12,8 @@ lib_list = ['${@project_root}/zlib']
 
 export_def_file = 'libcrypto.def'
 
+export_winapi_only = [
+  'RAND_event',
+  'RAND_screen',
+]
+
