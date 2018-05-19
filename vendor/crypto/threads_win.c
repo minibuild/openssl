@@ -98,7 +98,13 @@ int CRYPTO_THREAD_init_local(CRYPTO_THREAD_LOCAL *key, void (*cleanup)(void *))
 
 void *CRYPTO_THREAD_get_local(CRYPTO_THREAD_LOCAL *key)
 {
-    return TlsGetValue(*key);
+    void *result;
+    DWORD last_error;
+
+    last_error = GetLastError();
+    result = TlsGetValue(*key);
+    SetLastError(last_error);
+    return result;
 }
 
 int CRYPTO_THREAD_set_local(CRYPTO_THREAD_LOCAL *key, void *val)
