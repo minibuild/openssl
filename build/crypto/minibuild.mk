@@ -7,6 +7,7 @@ symbol_visibility_default = 1
 
 prebuilt_lib_list_linux = ['dl','pthread']
 prebuilt_lib_list_windows = ['crypt32', 'ws2_32', 'advapi32', 'user32']
+macosx_framework_list = ['CoreFoundation', 'Security']
 
 lib_list = ['${@project_root}/zlib']
 

@@ -38,6 +38,8 @@ X509_LOOKUP_METHOD *X509_LOOKUP_file(void)
     return (&x509_file_lookup);
 }
 
+extern int X509_load_platform_default_ca_certs(X509_LOOKUP *ctx);
+
 static int by_file_ctrl(X509_LOOKUP *ctx, int cmd, const char *argp,
                         long argl, char **ret)
 {
@@ -52,10 +54,14 @@ static int by_file_ctrl(X509_LOOKUP *ctx, int cmd, const char *argp,
                 ok = (X509_load_cert_crl_file(ctx, file,
                                               X509_FILETYPE_PEM) != 0);
 
-            else
-                ok = (X509_load_cert_crl_file
-                      (ctx, X509_get_default_cert_file(),
-                       X509_FILETYPE_PEM) != 0);
+            else {
+                file = X509_get_default_cert_file();
+                if (file && *file)
+                    ok = (X509_load_cert_crl_file(ctx, file,
+                                                  X509_FILETYPE_PEM) != 0);
+                else
+                    ok = (X509_load_platform_default_ca_certs(ctx) != 0);
+            }
 
             if (!ok) {
                 X509err(X509_F_BY_FILE_CTRL, X509_R_LOADING_DEFAULTS);

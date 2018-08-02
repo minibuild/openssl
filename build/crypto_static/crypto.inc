@@ -77,6 +77,9 @@ else:
     asm_search_dir_list_windows_x86 = [ '../../vendor/crypto/arch/mingw-win32' ]
     asm_search_dir_list_windows_x86_64 = [ '../../vendor/crypto/arch/mingw-win64' ]
 
+if BUILDSYS_TARGET_PLATFORM == 'macosx':
+    disabled_warnings = ['deprecated-declarations']
+
 asm_search_dir_list_linux_arm = [ '../../vendor/crypto/arch/linux-arm' ]
 asm_search_dir_list_linux_arm64 = [ '../../vendor/crypto/arch/linux-arm64' ]
 asm_search_dir_list_linux_x86 = [ '../../vendor/crypto/arch/linux-x86' ]
@@ -92,7 +95,6 @@ definitions = [
   'NO_WINDOWS_BRAINDEATH',
   'ECP_NISTZ256_ASM',
   'NDEBUG',
-  'OPENSSLDIR="/usr/local/ssl"',
   'OPENSSL_API_COMPAT=0x10000000L',
   'OPENSSL_BN_ASM_MONT',
   'OPENSSL_NO_DYNAMIC_ENGINE',
@@ -728,6 +730,7 @@ build_list = [
   'x509_ext.c',
   'x509_lu.c',
   'x509_obj.c',
+  'x509_plat.c',
   'x509_r2x.c',
   'x509_req.c',
   'x509_set.c',
